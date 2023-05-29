@@ -1,0 +1,9 @@
+depsversion = "0.0.0"
+
+name = "piot/user-serialize-c"
+version = "0.0.0"
+
+[[dependencies]]
+name = 'piot/flood-c'
+version = "*"
+
