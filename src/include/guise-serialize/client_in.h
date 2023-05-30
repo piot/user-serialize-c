@@ -5,16 +5,16 @@
 #ifndef GUISE_SERIALIZE_CLIENT_IN_H
 #define GUISE_SERIALIZE_CLIENT_IN_H
 
-#include <stdint.h>
-#include <stdlib.h>
 #include <guise-serialize/commands.h>
 #include <guise-serialize/types.h>
+#include <stdint.h>
+#include <stdlib.h>
 
 struct FldInStream;
 
 int guiseSerializeClientInChallenge(struct FldInStream* inStream, GuiseSerializeClientNonce* clientNonce,
-                                   GuiseSerializeServerChallenge* serverChallenge);
+                                    GuiseSerializeServerChallenge* serverChallenge);
 int guiseSerializeClientInLogin(struct FldInStream* inStream, GuiseSerializeClientNonce* clientNonce,
-                               GuiseSerializeUserSessionId* userSessionId);
+                                GuiseSerializeUserName* userName, GuiseSerializeUserSessionId* userSessionId);
 
 #endif

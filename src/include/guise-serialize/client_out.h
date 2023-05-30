@@ -12,9 +12,9 @@
 
 struct FldOutStream;
 
-int guiseSerializeClientOutChallenge(struct FldOutStream* stream, GuiseSerializeClientNonce clientNonce);
+int guiseSerializeClientOutChallenge(struct FldOutStream* stream, GuiseSerializeUserId userId,
+                                     GuiseSerializeClientNonce clientNonce);
 int guiseSerializeClientOutLogin(struct FldOutStream* stream, GuiseSerializeClientNonce clientNonce,
-                                 GuiseSerializeServerChallenge challenge, GuiseSerializeUserId userId,
-                                 GuiseSerializePassword password);
+                                 GuiseSerializeUserId userId, GuiseSerializePasswordHashWithChallenge password);
 
 #endif

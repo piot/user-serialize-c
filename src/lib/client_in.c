@@ -7,7 +7,7 @@
 #include <guise-serialize/serialize.h>
 
 int guiseSerializeClientInChallenge(FldInStream* inStream, GuiseSerializeClientNonce* clientNonce,
-                                   GuiseSerializeServerChallenge* serverChallenge)
+                                    GuiseSerializeServerChallenge* serverChallenge)
 {
     guiseSerializeReadClientNonce(inStream, clientNonce);
 
@@ -15,9 +15,9 @@ int guiseSerializeClientInChallenge(FldInStream* inStream, GuiseSerializeClientN
 }
 
 int guiseSerializeClientInLogin(struct FldInStream* inStream, GuiseSerializeClientNonce* clientNonce,
-                               GuiseSerializeUserSessionId* userSessionId)
+                                GuiseSerializeUserName* userName, GuiseSerializeUserSessionId* userSessionId)
 {
     guiseSerializeReadClientNonce(inStream, clientNonce);
-
+    guiseSerializeReadUserName(inStream, userName);
     return guiseSerializeReadUserSessionId(inStream, userSessionId);
 }

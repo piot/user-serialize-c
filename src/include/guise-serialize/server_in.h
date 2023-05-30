@@ -5,16 +5,18 @@
 #ifndef GUISE_SERIALIZE_SERVER_IN_H
 #define GUISE_SERIALIZE_SERVER_IN_H
 
-#include <stdint.h>
-#include <stdlib.h>
 #include <guise-serialize/commands.h>
 #include <guise-serialize/types.h>
+#include <stdint.h>
+#include <stdlib.h>
 
 struct FldInStream;
 
 int guiseSerializeServerInLogin(struct FldInStream* inStream, GuiseSerializeClientNonce* clientNonce,
-                               GuiseSerializeServerChallenge* serverChallenge, char* target, size_t maxTarget);
+                                GuiseSerializeUserId* userId,
+                                GuiseSerializePasswordHashWithChallenge* password);
 
-int guiseSerializeServerInChallenge(struct FldInStream* inStream, GuiseSerializeClientNonce* clientNonce);
+int guiseSerializeServerInChallenge(struct FldInStream* inStream, GuiseSerializeUserId* userId,
+                                    GuiseSerializeClientNonce* clientNonce);
 
 #endif

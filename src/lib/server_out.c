@@ -9,7 +9,7 @@
 #define DEBUG_PREFIX "ServerOut"
 
 int guiseSerializeServerOutChallenge(FldOutStream* outStream, GuiseSerializeClientNonce forClient,
-                                    GuiseSerializeServerChallenge challenge)
+                                     GuiseSerializeServerChallenge challenge)
 {
     guiseSerializeWriteCommand(outStream, guiseSerializeCmdChallengeResponse, DEBUG_PREFIX);
     guiseSerializeWriteClientNonce(outStream, forClient);
@@ -19,10 +19,11 @@ int guiseSerializeServerOutChallenge(FldOutStream* outStream, GuiseSerializeClie
 }
 
 int guiseSerializeServerOutLogin(FldOutStream* outStream, GuiseSerializeClientNonce forClient,
-                                GuiseSerializeUserSessionId userSessionId)
+                                 const GuiseSerializeUserName* userName, GuiseSerializeUserSessionId userSessionId)
 {
     guiseSerializeWriteCommand(outStream, guiseSerializeCmdLoginResponse, DEBUG_PREFIX);
     guiseSerializeWriteClientNonce(outStream, forClient);
+    guiseSerializeWriteUserName(outStream, userName);
     guiseSerializeWriteUserSessionId(outStream, userSessionId);
 
     return 0;

@@ -5,15 +5,15 @@
 #ifndef GUISE_SERIALIZE_SERVER_OUT_H
 #define GUISE_SERIALIZE_SERVER_OUT_H
 
+#include <guise-serialize/serialize.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <guise-serialize/serialize.h>
 
 struct FldOutStream;
 
 int guiseSerializeServerOutChallenge(struct FldOutStream* outStream, GuiseSerializeClientNonce forClient,
-                                    GuiseSerializeServerChallenge challenge);
+                                     GuiseSerializeServerChallenge challenge);
 int guiseSerializeServerOutLogin(struct FldOutStream* outStream, GuiseSerializeClientNonce forClient,
-                                GuiseSerializeUserSessionId userSession);
+                                 const GuiseSerializeUserName* userName, GuiseSerializeUserSessionId userSession);
 
 #endif

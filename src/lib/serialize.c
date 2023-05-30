@@ -43,16 +43,18 @@ int guiseSerializeReadUserId(struct FldInStream* stream, GuiseSerializeUserId* u
     return fldInStreamReadUInt64(stream, userId);
 }
 
-void guiseSerializeWritePassword(struct FldOutStream* stream, GuiseSerializePassword password)
+void guiseSerializeWritePasswordHashWithChallenge(struct FldOutStream* stream,
+                                                  GuiseSerializePasswordHashWithChallenge password)
 {
     fldOutStreamWriteMarker(stream, 0x99);
-    fldOutStreamWriteOctets(stream, password.payload, sizeof(password.payload));
+    fldOutStreamWriteUInt64(stream, password);
 }
 
-int guiseSerializeReadPassword(struct FldInStream* stream, GuiseSerializePassword* password)
+int guiseSerializeReadPasswordHashWithChallenge(struct FldInStream* stream,
+                                                GuiseSerializePasswordHashWithChallenge* password)
 {
     fldInStreamCheckMarker(stream, 0x99);
-    return fldInStreamReadOctets(stream, password->payload, sizeof(password->payload));
+    return fldInStreamReadUInt64(stream, password);
 }
 
 void guiseSerializeWriteClientNonce(struct FldOutStream* stream, GuiseSerializeClientNonce clientNonce)
@@ -77,6 +79,18 @@ int guiseSerializeReadServerChallenge(struct FldInStream* stream, GuiseSerialize
 {
     fldInStreamCheckMarker(stream, 0x88);
     return fldInStreamReadUInt64(stream, serverChallenge);
+}
+
+void guiseSerializeWriteUserName(struct FldOutStream* stream, const GuiseSerializeUserName* userName)
+{
+    fldOutStreamWriteMarker(stream, 0x94);
+    guiseSerializeWriteString(stream, userName->utf8);
+}
+
+int guiseSerializeReadUserName(struct FldInStream* stream, GuiseSerializeUserName* userName)
+{
+    fldInStreamCheckMarker(stream, 0x94);
+    return guiseSerializeReadString(stream, userName->utf8, 32);
 }
 
 int guiseSerializeWriteString(FldOutStream* stream, const char* s)

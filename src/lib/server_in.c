@@ -7,16 +7,19 @@
 #include <guise-serialize/server_in.h>
 
 int guiseSerializeServerInLogin(FldInStream* inStream, GuiseSerializeClientNonce* clientNonce,
-                               GuiseSerializeServerChallenge* serverChallenge, char* target, size_t maxTarget)
+                                GuiseSerializeUserId* userId,
+                                GuiseSerializePasswordHashWithChallenge* targetPassword)
 {
     guiseSerializeReadClientNonce(inStream, clientNonce);
-    guiseSerializeReadServerChallenge(inStream, serverChallenge);
-    guiseSerializeReadString(inStream, target, maxTarget);
+    guiseSerializeReadUserId(inStream, userId);
+    guiseSerializeReadPasswordHashWithChallenge(inStream, targetPassword);
 
     return 0;
 }
 
-int guiseSerializeServerInChallenge(FldInStream* inStream, GuiseSerializeClientNonce* clientNonce)
+int guiseSerializeServerInChallenge(FldInStream* inStream, GuiseSerializeUserId* userId,
+                                    GuiseSerializeClientNonce* clientNonce)
 {
-    return guiseSerializeReadClientNonce(inStream, clientNonce);
+    guiseSerializeReadClientNonce(inStream, clientNonce);
+    return guiseSerializeReadUserId(inStream, userId);
 }

@@ -14,8 +14,10 @@ typedef uint64_t GuiseSerializeUserId;
 typedef uint64_t GuiseSerializeClientNonce;
 typedef uint64_t GuiseSerializeServerChallenge;
 
-typedef struct GuiseSerializePassword {
-    uint8_t payload[32];
-} GuiseSerializePassword;
+typedef uint64_t GuiseSerializePasswordHashWithChallenge;
+
+typedef struct GuiseSerializeUserName {
+    char utf8[33];
+} GuiseSerializeUserName;
 
 #endif

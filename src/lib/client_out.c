@@ -9,21 +9,23 @@
 #define COMMAND_DEBUG "ClientOut"
 
 int guiseSerializeClientOutLogin(FldOutStream* stream, GuiseSerializeClientNonce clientNonce,
-                                GuiseSerializeServerChallenge challenge, GuiseSerializeUserId userId, GuiseSerializePassword password)
+                                 GuiseSerializeUserId userId,
+                                 GuiseSerializePasswordHashWithChallenge passwordHashWithChallenge)
 {
     guiseSerializeWriteCommand(stream, guiseSerializeCmdLogin, COMMAND_DEBUG);
     guiseSerializeWriteClientNonce(stream, clientNonce);
-    guiseSerializeWriteServerChallenge(stream, challenge);
     guiseSerializeWriteUserId(stream, userId);
-    guiseSerializeWritePassword(stream, password);
+    guiseSerializeWritePasswordHashWithChallenge(stream, passwordHashWithChallenge);
 
     return 0;
 }
 
-int guiseSerializeClientOutChallenge(FldOutStream* stream, GuiseSerializeClientNonce clientNonce)
+int guiseSerializeClientOutChallenge(FldOutStream* stream, GuiseSerializeUserId userId,
+                                     GuiseSerializeClientNonce clientNonce)
 {
     guiseSerializeWriteCommand(stream, guiseSerializeCmdChallenge, COMMAND_DEBUG);
     guiseSerializeWriteClientNonce(stream, clientNonce);
+    guiseSerializeWriteUserId(stream, userId);
 
     return 0;
 }
