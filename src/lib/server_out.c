@@ -3,27 +3,27 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 #include <flood/out_stream.h>
-#include <user-serialize/commands.h>
-#include <user-serialize/server_out.h>
+#include <guise-serialize/commands.h>
+#include <guise-serialize/server_out.h>
 
 #define DEBUG_PREFIX "ServerOut"
 
-int userSerializeServerOutChallenge(FldOutStream* outStream, UserSerializeClientNonce forClient,
-                                    UserSerializeServerChallenge challenge)
+int guiseSerializeServerOutChallenge(FldOutStream* outStream, GuiseSerializeClientNonce forClient,
+                                    GuiseSerializeServerChallenge challenge)
 {
-    userSerializeWriteCommand(outStream, userSerializeCmdChallengeResponse, DEBUG_PREFIX);
-    userSerializeWriteClientNonce(outStream, forClient);
-    userSerializeWriteServerChallenge(outStream, challenge);
+    guiseSerializeWriteCommand(outStream, guiseSerializeCmdChallengeResponse, DEBUG_PREFIX);
+    guiseSerializeWriteClientNonce(outStream, forClient);
+    guiseSerializeWriteServerChallenge(outStream, challenge);
 
     return 0;
 }
 
-int userSerializeServerOutLogin(FldOutStream* outStream, UserSerializeClientNonce forClient,
-                                UserSerializeUserSessionId userSessionId)
+int guiseSerializeServerOutLogin(FldOutStream* outStream, GuiseSerializeClientNonce forClient,
+                                GuiseSerializeUserSessionId userSessionId)
 {
-    userSerializeWriteCommand(outStream, userSerializeCmdLoginResponse, DEBUG_PREFIX);
-    userSerializeWriteClientNonce(outStream, forClient);
-    userSerializeWriteUserSessionId(outStream, userSessionId);
+    guiseSerializeWriteCommand(outStream, guiseSerializeCmdLoginResponse, DEBUG_PREFIX);
+    guiseSerializeWriteClientNonce(outStream, forClient);
+    guiseSerializeWriteUserSessionId(outStream, userSessionId);
 
     return 0;
 }

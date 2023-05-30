@@ -3,26 +3,27 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 #include <flood/out_stream.h>
-#include <user-serialize/client_out.h>
-#include <user-serialize/serialize.h>
+#include <guise-serialize/client_out.h>
+#include <guise-serialize/serialize.h>
 
 #define COMMAND_DEBUG "ClientOut"
 
-int userSerializeClientOutLogin(FldOutStream* stream, UserSerializeClientNonce clientNonce,
-                                UserSerializeServerChallenge challenge, const char* name)
+int guiseSerializeClientOutLogin(FldOutStream* stream, GuiseSerializeClientNonce clientNonce,
+                                GuiseSerializeServerChallenge challenge, GuiseSerializeUserId userId, GuiseSerializePassword password)
 {
-    userSerializeWriteCommand(stream, userSerializeCmdLogin, COMMAND_DEBUG);
-    userSerializeWriteClientNonce(stream, clientNonce);
-    userSerializeWriteServerChallenge(stream, challenge);
-    userSerializeWriteString(stream, name);
+    guiseSerializeWriteCommand(stream, guiseSerializeCmdLogin, COMMAND_DEBUG);
+    guiseSerializeWriteClientNonce(stream, clientNonce);
+    guiseSerializeWriteServerChallenge(stream, challenge);
+    guiseSerializeWriteUserId(stream, userId);
+    guiseSerializeWritePassword(stream, password);
 
     return 0;
 }
 
-int userSerializeClientOutChallenge(FldOutStream* stream, UserSerializeClientNonce clientNonce)
+int guiseSerializeClientOutChallenge(FldOutStream* stream, GuiseSerializeClientNonce clientNonce)
 {
-    userSerializeWriteCommand(stream, userSerializeCmdChallenge, COMMAND_DEBUG);
-    userSerializeWriteClientNonce(stream, clientNonce);
+    guiseSerializeWriteCommand(stream, guiseSerializeCmdChallenge, COMMAND_DEBUG);
+    guiseSerializeWriteClientNonce(stream, clientNonce);
 
     return 0;
 }

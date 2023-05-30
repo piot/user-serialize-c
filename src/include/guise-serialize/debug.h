@@ -2,21 +2,13 @@
  *  Copyright (c) Peter Bjorklund. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-#ifndef USER_SERIALIZE_COMMANDS_H
-#define USER_SERIALIZE_COMMANDS_H
+#ifndef GUISE_SERIALIZE_DEBUG_H
+#define GUISE_SERIALIZE_DEBUG_H
 
 #include <stdint.h>
+#include <stdlib.h>
 
-// TODO: change to extern.
-
-// Requests
-#define userSerializeCmdNop (0x00)
-
-#define userSerializeCmdLogin (0x02)
-#define userSerializeCmdChallenge (0x0A)
-
-// Responses
-#define userSerializeCmdLoginResponse (0x22)
-#define userSerializeCmdChallengeResponse (0x2A)
+// void guiseSerializeDebugHex(const char* debug, const uint8_t* data, size_t length);
+const char* guiseSerializeCmdToString(uint8_t t);
 
 #endif

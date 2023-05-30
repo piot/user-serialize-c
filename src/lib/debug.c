@@ -4,19 +4,19 @@
  *--------------------------------------------------------------------------------------------*/
 #include <clog/clog.h>
 #include <stdio.h>
-#include <user-serialize/commands.h>
-#include <user-serialize/debug.h>
+#include <guise-serialize/commands.h>
+#include <guise-serialize/debug.h>
 
-const char* userSerializeCmdToString(uint8_t t)
+const char* guiseSerializeCmdToString(uint8_t t)
 {
     switch (t) {
-        case userSerializeCmdChallenge:
+        case guiseSerializeCmdChallenge:
             return "Challenge";
-        case userSerializeCmdChallengeResponse:
+        case guiseSerializeCmdChallengeResponse:
             return "ChallengeResponse";
-        case userSerializeCmdLogin:
+        case guiseSerializeCmdLogin:
             return "Login";
-        case userSerializeCmdLoginResponse:
+        case guiseSerializeCmdLoginResponse:
             return "LoginResponse";
         default: {
             static char buf[128];

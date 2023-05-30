@@ -3,21 +3,21 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 #include <flood/in_stream.h>
-#include <user-serialize/client_in.h>
-#include <user-serialize/serialize.h>
+#include <guise-serialize/client_in.h>
+#include <guise-serialize/serialize.h>
 
-int userSerializeClientInChallenge(FldInStream* inStream, UserSerializeClientNonce* clientNonce,
-                                   UserSerializeServerChallenge* serverChallenge)
+int guiseSerializeClientInChallenge(FldInStream* inStream, GuiseSerializeClientNonce* clientNonce,
+                                   GuiseSerializeServerChallenge* serverChallenge)
 {
-    userSerializeReadClientNonce(inStream, clientNonce);
+    guiseSerializeReadClientNonce(inStream, clientNonce);
 
-    return userSerializeReadServerChallenge(inStream, serverChallenge);
+    return guiseSerializeReadServerChallenge(inStream, serverChallenge);
 }
 
-int userSerializeClientInLogin(struct FldInStream* inStream, UserSerializeClientNonce* clientNonce,
-                               UserSerializeUserSessionId* userSessionId)
+int guiseSerializeClientInLogin(struct FldInStream* inStream, GuiseSerializeClientNonce* clientNonce,
+                               GuiseSerializeUserSessionId* userSessionId)
 {
-    userSerializeReadClientNonce(inStream, clientNonce);
+    guiseSerializeReadClientNonce(inStream, clientNonce);
 
-    return userSerializeReadUserSessionId(inStream, userSessionId);
+    return guiseSerializeReadUserSessionId(inStream, userSessionId);
 }

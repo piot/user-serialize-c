@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(user_serialize C)
+project(guise_serialize C)
 
 add_subdirectory("lib")
 

@@ -5,15 +5,15 @@
 #include <clog/clog.h>
 #include <flood/in_stream.h>
 #include <flood/out_stream.h>
-#include <user-serialize/serialize.h>
+#include <guise-serialize/serialize.h>
 
-void userSerializeWriteCommand(struct FldOutStream* outStream, uint8_t cmd, const char* prefix)
+void guiseSerializeWriteCommand(struct FldOutStream* outStream, uint8_t cmd, const char* prefix)
 {
-    // CLOG_VERBOSE("%s: cmd: %s", prefix, userSerializeCmdToString(cmd));
+    // CLOG_VERBOSE("%s: cmd: %s", prefix, guiseSerializeCmdToString(cmd));
     fldOutStreamWriteUInt8(outStream, cmd);
 }
 
-void userSerializeWriteUserSessionId(struct FldOutStream* stream, UserSerializeUserSessionId userSessionId)
+void guiseSerializeWriteUserSessionId(struct FldOutStream* stream, GuiseSerializeUserSessionId userSessionId)
 {
     if (userSessionId == 0) {
         CLOG_ERROR("userSessionId zero is reserved");
@@ -22,13 +22,13 @@ void userSerializeWriteUserSessionId(struct FldOutStream* stream, UserSerializeU
     fldOutStreamWriteUInt64(stream, userSessionId);
 }
 
-int userSerializeReadUserSessionId(struct FldInStream* stream, UserSerializeUserSessionId* userSessionId)
+int guiseSerializeReadUserSessionId(struct FldInStream* stream, GuiseSerializeUserSessionId* userSessionId)
 {
     fldInStreamCheckMarker(stream, 0x86);
     return fldInStreamReadUInt64(stream, userSessionId);
 }
 
-void userSerializeWriteUserId(struct FldOutStream* stream, UserSerializeUserId userId)
+void guiseSerializeWriteUserId(struct FldOutStream* stream, GuiseSerializeUserId userId)
 {
     if (userId == 0) {
         CLOG_ERROR("userId zero is reserved");
@@ -37,44 +37,56 @@ void userSerializeWriteUserId(struct FldOutStream* stream, UserSerializeUserId u
     fldOutStreamWriteUInt64(stream, userId);
 }
 
-int userSerializeReadUserId(struct FldInStream* stream, UserSerializeUserId* userId)
+int guiseSerializeReadUserId(struct FldInStream* stream, GuiseSerializeUserId* userId)
 {
     fldInStreamCheckMarker(stream, 0x89);
     return fldInStreamReadUInt64(stream, userId);
 }
 
-void userSerializeWriteClientNonce(struct FldOutStream* stream, UserSerializeClientNonce clientNonce)
+void guiseSerializeWritePassword(struct FldOutStream* stream, GuiseSerializePassword password)
+{
+    fldOutStreamWriteMarker(stream, 0x99);
+    fldOutStreamWriteOctets(stream, password.payload, sizeof(password.payload));
+}
+
+int guiseSerializeReadPassword(struct FldInStream* stream, GuiseSerializePassword* password)
+{
+    fldInStreamCheckMarker(stream, 0x99);
+    return fldInStreamReadOctets(stream, password->payload, sizeof(password->payload));
+}
+
+void guiseSerializeWriteClientNonce(struct FldOutStream* stream, GuiseSerializeClientNonce clientNonce)
 {
     fldOutStreamWriteMarker(stream, 0x87);
     fldOutStreamWriteUInt64(stream, clientNonce);
 }
 
-int userSerializeReadClientNonce(struct FldInStream* stream, UserSerializeClientNonce* clientNonce)
+int guiseSerializeReadClientNonce(struct FldInStream* stream, GuiseSerializeClientNonce* clientNonce)
 {
     fldInStreamCheckMarker(stream, 0x87);
     return fldInStreamReadUInt64(stream, clientNonce);
 }
 
-void userSerializeWriteServerChallenge(struct FldOutStream* stream, UserSerializeServerChallenge serverChallenge)
+void guiseSerializeWriteServerChallenge(struct FldOutStream* stream, GuiseSerializeServerChallenge serverChallenge)
 {
     fldOutStreamWriteMarker(stream, 0x88);
     fldOutStreamWriteUInt64(stream, serverChallenge);
 }
 
-int userSerializeReadServerChallenge(struct FldInStream* stream, UserSerializeServerChallenge* serverChallenge)
+int guiseSerializeReadServerChallenge(struct FldInStream* stream, GuiseSerializeServerChallenge* serverChallenge)
 {
     fldInStreamCheckMarker(stream, 0x88);
     return fldInStreamReadUInt64(stream, serverChallenge);
 }
 
-int userSerializeWriteString(FldOutStream* stream, const char* s)
+int guiseSerializeWriteString(FldOutStream* stream, const char* s)
 {
     size_t len = tc_strlen(s);
     fldOutStreamWriteUInt8(stream, len);
     return fldOutStreamWriteOctets(stream, (const uint8_t*) s, len);
 }
 
-int userSerializeReadString(struct FldInStream* stream, char* buf, size_t maxLength)
+int guiseSerializeReadString(struct FldInStream* stream, char* buf, size_t maxLength)
 {
     uint8_t stringLength;
     fldInStreamReadUInt8(stream, &stringLength);
