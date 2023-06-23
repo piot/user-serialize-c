@@ -17,7 +17,7 @@ void guiseSerializeWriteCommand(struct FldOutStream* outStream, uint8_t cmd, con
 void guiseSerializeWriteUserSessionId(struct FldOutStream* stream, GuiseSerializeUserSessionId userSessionId)
 {
     if (userSessionId == 0) {
-        CLOG_ERROR("userSessionId zero is reserved");
+        CLOG_ERROR("userSessionId zero is reserved")
     }
     fldOutStreamWriteMarker(stream, 0x86);
     fldOutStreamWriteUInt64(stream, userSessionId);
@@ -32,7 +32,7 @@ int guiseSerializeReadUserSessionId(struct FldInStream* stream, GuiseSerializeUs
 void guiseSerializeWriteUserId(struct FldOutStream* stream, GuiseSerializeUserId userId)
 {
     if (userId == 0) {
-        CLOG_ERROR("userId zero is reserved");
+        CLOG_ERROR("userId zero is reserved")
     }
     fldOutStreamWriteMarker(stream, 0x89);
     fldOutStreamWriteUInt64(stream, userId);
