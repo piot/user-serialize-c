@@ -10,7 +10,6 @@
 // TODO: change to extern.
 
 // Requests
-#define guiseSerializeCmdNop (0x00)
 
 #define guiseSerializeCmdLogin (0x02)
 #define guiseSerializeCmdChallenge (0x0A)

@@ -10,6 +10,7 @@
 void guiseSerializeWriteCommand(struct FldOutStream* outStream, uint8_t cmd, const char* prefix)
 {
     // CLOG_VERBOSE("%s: cmd: %s", prefix, guiseSerializeCmdToString(cmd));
+    (void) prefix;
     fldOutStreamWriteUInt8(outStream, cmd);
 }
 
@@ -96,7 +97,7 @@ int guiseSerializeReadUserName(struct FldInStream* stream, GuiseSerializeUserNam
 int guiseSerializeWriteString(FldOutStream* stream, const char* s)
 {
     size_t len = tc_strlen(s);
-    fldOutStreamWriteUInt8(stream, len);
+    fldOutStreamWriteUInt8(stream, (uint8_t)len);
     return fldOutStreamWriteOctets(stream, (const uint8_t*) s, len);
 }
 

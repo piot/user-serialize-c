@@ -8,7 +8,6 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-// void guiseSerializeDebugHex(const char* debug, const uint8_t* data, size_t length);
 const char* guiseSerializeCmdToString(uint8_t t);
 
 #endif
