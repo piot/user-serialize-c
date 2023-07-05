@@ -15,9 +15,11 @@ int guiseSerializeClientInChallenge(FldInStream* inStream, GuiseSerializeClientN
 }
 
 int guiseSerializeClientInLogin(struct FldInStream* inStream, GuiseSerializeClientNonce* clientNonce,
-                                GuiseSerializeUserName* userName, GuiseSerializeUserSessionId* userSessionId)
+                                GuiseSerializeUserName* userName, GuiseSerializeUserSessionId* userSessionId,
+                                GuiseSerializeAddress* address)
 {
     guiseSerializeReadClientNonce(inStream, clientNonce);
     guiseSerializeReadUserName(inStream, userName);
-    return guiseSerializeReadUserSessionId(inStream, userSessionId);
+    guiseSerializeReadUserSessionId(inStream, userSessionId);
+    return guiseSerializeReadNetworkAddress(inStream, address);
 }

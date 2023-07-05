@@ -14,6 +14,7 @@ struct FldOutStream;
 int guiseSerializeServerOutChallenge(struct FldOutStream* outStream, GuiseSerializeClientNonce forClient,
                                      GuiseSerializeServerChallenge challenge);
 int guiseSerializeServerOutLogin(struct FldOutStream* outStream, GuiseSerializeClientNonce forClient,
-                                 const GuiseSerializeUserName* userName, GuiseSerializeUserSessionId userSession);
+                                 const GuiseSerializeUserName* userName, GuiseSerializeUserSessionId userSession,
+                                 const GuiseSerializeAddress* networkAddress);
 
 #endif

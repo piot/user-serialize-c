@@ -20,4 +20,33 @@ typedef struct GuiseSerializeUserName {
     char utf8[33];
 } GuiseSerializeUserName;
 
+typedef enum GuiseSerializeAddressType {
+    GuiseSerializeAddressTypeV4,
+    GuiseSerializeAddressTypeV6,
+} GuiseSerializeAddressType;
+
+typedef struct GuiseSerializeAddress {
+    union  {
+        uint8_t ipv4[4];
+        uint8_t ipv6[16];
+    } address;
+
+    uint16_t port;
+    GuiseSerializeAddressType type;
+} GuiseSerializeAddress;
+
+typedef struct GuiseSerializeConfirmResponse {
+    GuiseSerializeUserId userId;
+    GuiseSerializeUserSessionId userSessionId;
+    GuiseSerializeUserName userName;
+    GuiseSerializeAddress address;
+} GuiseSerializeConfirmResponse;
+
+typedef enum GuiseSerializeRole {
+    GuiseSerializeRoleNone = 0,
+    GuiseSerializeRoleUser = 1,
+    GuiseSerializeRoleQuery = 2,
+    GuiseSerializeRoleAdmin = 4,
+} GuiseSerializeRole;
+
 #endif

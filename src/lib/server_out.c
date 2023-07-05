@@ -19,12 +19,14 @@ int guiseSerializeServerOutChallenge(FldOutStream* outStream, GuiseSerializeClie
 }
 
 int guiseSerializeServerOutLogin(FldOutStream* outStream, GuiseSerializeClientNonce forClient,
-                                 const GuiseSerializeUserName* userName, GuiseSerializeUserSessionId userSessionId)
+                                 const GuiseSerializeUserName* userName, GuiseSerializeUserSessionId userSessionId,
+                                 const GuiseSerializeAddress* address)
 {
     guiseSerializeWriteCommand(outStream, guiseSerializeCmdLoginResponse, DEBUG_PREFIX);
     guiseSerializeWriteClientNonce(outStream, forClient);
     guiseSerializeWriteUserName(outStream, userName);
     guiseSerializeWriteUserSessionId(outStream, userSessionId);
+    guiseSerializeWriteNetworkAddress(outStream, address);
 
     return 0;
 }

@@ -97,7 +97,7 @@ int guiseSerializeReadUserName(struct FldInStream* stream, GuiseSerializeUserNam
 int guiseSerializeWriteString(FldOutStream* stream, const char* s)
 {
     size_t len = tc_strlen(s);
-    fldOutStreamWriteUInt8(stream, (uint8_t)len);
+    fldOutStreamWriteUInt8(stream, (uint8_t) len);
     return fldOutStreamWriteOctets(stream, (const uint8_t*) s, len);
 }
 
@@ -114,4 +114,43 @@ int guiseSerializeReadString(struct FldInStream* stream, char* buf, size_t maxLe
     }
     buf[stringLength] = 0;
     return stringLength;
+}
+
+int guiseSerializeWriteNetworkAddress(struct FldOutStream* stream, const GuiseSerializeAddress* address)
+{
+    fldOutStreamWriteUInt8(stream, (uint8_t) address->type);
+    if (address->type > 1) {
+        CLOG_ERROR("wrong type")
+    }
+    switch (address->type) {
+        case GuiseSerializeAddressTypeV4:
+            fldOutStreamWriteOctets(stream, address->address.ipv4, sizeof(address->address.ipv4));
+            break;
+        case GuiseSerializeAddressTypeV6:
+            fldOutStreamWriteOctets(stream, address->address.ipv6, sizeof(address->address.ipv6));
+            break;
+    }
+
+    return fldOutStreamWriteUInt16(stream, address->port);
+}
+
+int guiseSerializeReadNetworkAddress(struct FldInStream* stream, GuiseSerializeAddress* address)
+{
+    uint8_t octetType;
+    int err = fldInStreamReadUInt8(stream, &octetType);
+    if (err < 0) {
+        return err;
+    }
+    address->type = (GuiseSerializeAddressType) octetType;
+
+    switch (address->type) {
+        case GuiseSerializeAddressTypeV4:
+            fldInStreamReadOctets(stream, address->address.ipv4, sizeof(address->address.ipv4));
+            break;
+        case GuiseSerializeAddressTypeV6:
+            fldInStreamReadOctets(stream, address->address.ipv6, sizeof(address->address.ipv6));
+            break;
+    }
+
+    return fldInStreamReadUInt16(stream, &address->port);
 }

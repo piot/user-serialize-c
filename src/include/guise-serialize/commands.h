@@ -13,9 +13,13 @@
 
 #define guiseSerializeCmdLogin (0x02)
 #define guiseSerializeCmdChallenge (0x0A)
+#define guiseSerializeCmdConfirmInfoRequest (0x0B)
 
 // Responses
 #define guiseSerializeCmdLoginResponse (0x22)
 #define guiseSerializeCmdChallengeResponse (0x2A)
+
+#define guiseSerializeCmdConfirmInfoResponse (0x2B)
+
 
 #endif

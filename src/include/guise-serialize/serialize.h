@@ -21,8 +21,10 @@ int guiseSerializeReadUserSessionId(struct FldInStream* stream, GuiseSerializeUs
 void guiseSerializeWriteUserId(struct FldOutStream* outStream, GuiseSerializeUserId userId);
 int guiseSerializeReadUserId(struct FldInStream* stream, GuiseSerializeUserId* userId);
 
-void guiseSerializeWritePasswordHashWithChallenge(struct FldOutStream* outStream, GuiseSerializePasswordHashWithChallenge password);
-int guiseSerializeReadPasswordHashWithChallenge(struct FldInStream* stream, GuiseSerializePasswordHashWithChallenge* password);
+void guiseSerializeWritePasswordHashWithChallenge(struct FldOutStream* outStream,
+                                                  GuiseSerializePasswordHashWithChallenge password);
+int guiseSerializeReadPasswordHashWithChallenge(struct FldInStream* stream,
+                                                GuiseSerializePasswordHashWithChallenge* password);
 
 void guiseSerializeWriteClientNonce(struct FldOutStream* outStream, GuiseSerializeClientNonce clientNonce);
 int guiseSerializeReadClientNonce(struct FldInStream* stream, GuiseSerializeClientNonce* clientNonce);
@@ -35,5 +37,8 @@ int guiseSerializeReadUserName(struct FldInStream* stream, GuiseSerializeUserNam
 
 int guiseSerializeWriteString(struct FldOutStream* stream, const char* s);
 int guiseSerializeReadString(struct FldInStream* stream, char* buf, size_t maxLength);
+
+int guiseSerializeWriteNetworkAddress(struct FldOutStream* stream, const GuiseSerializeAddress* address);
+int guiseSerializeReadNetworkAddress(struct FldInStream* stream, GuiseSerializeAddress* address);
 
 #endif

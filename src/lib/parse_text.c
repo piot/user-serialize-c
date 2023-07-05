@@ -84,7 +84,7 @@ int guiseTextStreamReadPasswordHash(FldTextInStream* stream, uint64_t* value)
     }
 }
 
-int guiseTextStreamReadUserName(FldTextInStream* stream, char* target, size_t max)
+static int guiseTextStreamReadUserNameString(FldTextInStream* stream, char* target, size_t max)
 {
     int pos = 0;
     while (1) {
@@ -106,4 +106,65 @@ int guiseTextStreamReadUserName(FldTextInStream* stream, char* target, size_t ma
             }
         }
     }
+}
+
+int guiseTextStreamReadUserName(FldTextInStream* stream, GuiseSerializeUserName* target)
+{
+    return guiseTextStreamReadUserNameString(stream, target->utf8, 32);
+}
+
+static GuiseSerializeRole getRoleFromAlpha(char ch)
+{
+    switch (ch) {
+        case '-':
+            return GuiseSerializeRoleNone;
+        case 'u':
+            return GuiseSerializeRoleUser;
+        case 'q':
+            return GuiseSerializeRoleQuery;
+        default:
+            CLOG_ERROR("illegal guise role '%c'", ch)
+    }
+}
+
+int guiseTextStreamReadAuthorizedRoles(FldTextInStream* stream, GuiseSerializeRole* target)
+{
+    int pos = 0;
+    *target = 0;
+    while (1) {
+        char ch;
+        int err = fldTextInStreamReadCh(stream, &ch);
+        if (err < 0) {
+            return err;
+        }
+        if (isSpace(ch)) {
+            if (pos > 0) {
+                return 0;
+            }
+            continue;
+        } else if (isAlpha(ch)) {
+            *target |= getRoleFromAlpha(ch);
+            pos++;
+        }
+    }
+}
+
+int guiseTextStreamReadUser(struct FldTextInStream* stream, GuiseSerializeUserInfo* targetUserInfo)
+{
+    int err = guiseTextStreamReadUserId(stream, &targetUserInfo->userId);
+    if (err < 0) {
+        return err;
+    }
+
+    err = guiseTextStreamReadUserName(stream, &targetUserInfo->userName);
+    if (err < 0) {
+        return err;
+    }
+
+    err = guiseTextStreamReadPasswordHash(stream, &targetUserInfo->passwordHash);
+    if (err < 0) {
+        return err;
+    }
+
+    return guiseTextStreamReadAuthorizedRoles(stream, &targetUserInfo->roles);
 }
