@@ -1,0 +1,218 @@
+Guise Protocol
+
+Copyright (C) 2022 Peter Bjorklund. All rights reserved.
+
+== Guise Protocol
+
+CAUTION: Authentication protocol only to be used for internal testing. Not secure enough for production use.
+
+=== Normal Commands
+
+==== Challenge Request
+
+Sent by the client to the server, asking for a challenge procedure to start.
+
+Implemented by https://github.com/piot/guise-serialize-c/blob/main/src/lib/client_out.c[`guiseSerializeClientOutChallenge()`].
+
+[cols="1,1,2"]
+|===
+|Type | Name | Description
+
+|U8
+|Command
+|`guiseSerializeCmdChallenge` (0x0A)
+
+|U64
+|Client Nonce
+|Random Number
+
+
+|U64
+|User ID that wants to login
+|
+
+|===
+
+==== Challenge Response
+
+Sent by the server to the client, in response to the <<Challenge Request>>
+
+
+Implemented in https://github.com/piot/Guise-serialize-c/blob/main/src/lib/server_out.c#L11[`guiseSerializeServerOutChallenge()`].
+
+[cols="1,1,2"]
+|===
+|Type | Name | Description
+
+|U8
+|Command
+|`guiseSerializeCmdChallengeResponse` (0x2A)
+
+|U64
+|Client Nonce
+|Same number as received from the client in <<Challenge Request>>
+
+|U64
+|Server Challenge
+|This challenge should be XOR:ed by the client to produce a proof of the secret.
+
+|===
+
+
+==== Login Request
+
+Sent by the client to the server
+
+[cols="1,1,2"]
+|===
+|Type | Name | Description
+
+|U8
+|Command
+|`guiseSerializeCmdLogin` (0x02)
+
+|U64
+|Client Nonce
+|Same number as used in <<Challenge Request>>
+
+|U64
+|UserID
+|The unique user id for the user that wants to authenticate.
+
+|U64
+|Password Hash With Challenge
+|Server Challenge XOR:ed with the shared secret.
+
+|===
+
+
+==== Login Success
+
+Sent by the server to the client
+
+[cols="1,1,2"]
+|===
+|Type | Name | Description
+
+|U8
+|Command
+|`guiseSerializeCmdLoginResponse` (0x22)
+
+|U64
+|Client Nonce
+|Same number as used in <<Login Request>>
+
+|U8
+|User Name octet length
+|The length of the UserName. Maxium 32.
+
+|U8 * [User Name octet length]
+|UserName
+|The utf8 encoded user name string
+
+|U64
+|User Session ID
+|The unique User Session ID generated for this login.
+
+|<<Guise Address>>
+|Public Network Address
+|The public network address for the login request
+
+|===
+
+
+=== Server Query Commands
+
+
+==== Request Info
+
+Sent by an internal server to the guise server
+
+[cols="1,1,2"]
+|===
+|Type | Name | Description
+
+|U8
+|Command
+|`guiseSerializeCmdConfirmInfoRequest` (0x0B)
+
+|U64
+|Server User Session ID
+|
+
+|U64
+|Query User Session ID
+|
+
+|<<Guise Address>>
+|Public Network Address
+|Public Network Address of the [Query User Session ID]
+
+|===
+
+
+==== Request Info Response
+
+Sent by the guise server to an internal server
+
+[cols="1,1,2"]
+|===
+|Type | Name | Description
+
+|U8
+|Command
+|`guiseSerializeCmdConfirmInfoResponse` (0x28)
+
+|U64
+|User ID
+|User ID of the looked up User Session ID.
+
+|U64
+|User Session ID
+|Same as in <<Request Info>>
+
+|U8
+|User Name octet length
+|The length of the UserName. Maxium 32.
+
+|U8 * [User Name octet length]
+|UserName
+|The utf8 encoded user name string
+
+|<<Guise Address>>
+|Public Network Address
+|Public Network Address of the user session.
+
+|===
+
+==== Types
+
+===== Guise Address
+
+
+[cols="1,1,2"]
+|===
+|Type | Name | Description
+
+|U8
+|Network Type
+|IPV4 = 0x00, IPV6 = 0x01
+
+
+|U8[4]
+|IPV4 address
+|only if Network Type is IPV4
+
+|U8[16]
+|IPV6 address
+|only if Network Type is IPV6
+
+|U16
+|Port
+|The port number
+
+|===
+
+
+
+
