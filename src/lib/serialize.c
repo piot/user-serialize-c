@@ -31,9 +31,9 @@ int guiseSerializeReadUserSessionId(struct FldInStream* stream, GuiseSerializeUs
 
 void guiseSerializeWriteUserId(struct FldOutStream* stream, GuiseSerializeUserId userId)
 {
-    if (userId == 0) {
-        CLOG_ERROR("userId zero is reserved")
-    }
+    //if (userId == 0) {
+        //CLOG_ERROR("userId zero is reserved")
+    //}
     fldOutStreamWriteMarker(stream, 0x89);
     fldOutStreamWriteUInt64(stream, userId);
 }

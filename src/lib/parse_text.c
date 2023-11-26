@@ -6,6 +6,7 @@
 #include <flood/in_stream.h>
 #include <flood/text_in_stream.h>
 #include <guise-serialize/parse_text.h>
+#include <inttypes.h>
 #include <stdbool.h>
 
 static bool isNumber(char ch)
@@ -101,7 +102,7 @@ static int guiseTextStreamReadUserNameString(FldTextInStream* stream, char* targ
             continue;
         } else if (isAlphaNum(ch)) {
             target[pos++] = ch;
-            if ((size_t) pos >= max) {
+            if ((size_t)pos >= max) {
                 return -1;
             }
         }
@@ -116,14 +117,14 @@ int guiseTextStreamReadUserName(FldTextInStream* stream, GuiseSerializeUserName*
 static GuiseSerializeRole getRoleFromAlpha(char ch)
 {
     switch (ch) {
-        case '-':
-            return GuiseSerializeRoleNone;
-        case 'u':
-            return GuiseSerializeRoleUser;
-        case 'q':
-            return GuiseSerializeRoleQuery;
-        default:
-            CLOG_ERROR("illegal guise role '%c'", ch)
+    case '-':
+        return GuiseSerializeRoleNone;
+    case 'u':
+        return GuiseSerializeRoleUser;
+    case 'q':
+        return GuiseSerializeRoleQuery;
+    default:
+        CLOG_ERROR("illegal guise role '%c'", ch)
     }
 }
 
@@ -142,7 +143,7 @@ int guiseTextStreamReadAuthorizedRoles(FldTextInStream* stream, GuiseSerializeRo
                 return 0;
             }
             continue;
-        } else if (isAlpha(ch)) {
+        } else if (isAlpha(ch) || ch == '-') {
             *target |= getRoleFromAlpha(ch);
             pos++;
         }
